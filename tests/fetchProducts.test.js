@@ -2,7 +2,7 @@ require('../mocks/fetchSimulator');
 const { fetchProducts } = require('../helpers/fetchProducts');
 const computadorSearch = require('../mocks/search');
 
- // Referencia do .toBeCalled e .toBeCalledWith foi retirada do README do projeto,
+ // Referencia do .toBeCalled e .toBeCalledWith esuas instruções de uso foi retirada do README do projeto,
  // no topico 'Pontos importantes para a implementação dos testes' que tem o link: https://jestjs.io/pt-BR/docs/expect#tohavebeencalled.
 describe('1 - Teste a função fecthProducts', () => {
   it('Teste se fetchProducts é uma função', () => {
