@@ -10,7 +10,6 @@ const sumPrices = () => {
   }
   const totalPrices = document.querySelector('.total-price').children[0];
   totalPrices.innerHTML = parseFloat(price);
-  // .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); // referência: https://www.alura.com.br/artigos/formatando-numeros-no-javascript
 };
 
 function createProductImageElement(imageSource) {
