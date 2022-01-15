@@ -60,10 +60,20 @@ const eventButton = async (event) => {
   saveItem();
 };
 
+const onLoading = () => {
+  const listItemHtml = document.querySelector('.items');
+  const load = document.createElement('p');
+  load.className = 'loading';
+  load.innerText = 'carregando...';
+  listItemHtml.appendChild(load);
+};
+
 const selectProducts = async () => {
+  onLoading();
   const products = await fetchProducts('computador');
   const productResults = products.results;
   const listItemHtml = document.querySelector('.items');
+  listItemHtml.removeChild(listItemHtml.children[0]);
   productResults.forEach((item) => {
     const itemSend = {
       sku: item.id,
