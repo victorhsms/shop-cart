@@ -106,9 +106,18 @@ const getStorage = () => {
   sumPrices();
 };
 
+const emptyCart = () => {
+  cartItems.innerText = '';
+  sumPrices();
+  localStorage.removeItem('cartItems');
+};
+
 window.onload = () => { 
   selectProducts();
   sumPrices();
+
+  const buttonEmptyCard = document.querySelector('.empty-cart');
+  buttonEmptyCard.addEventListener('click', emptyCart);
 
   if (localStorage.length > 0) getStorage();
  };
