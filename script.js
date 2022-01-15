@@ -1,3 +1,5 @@
+  const cartItems = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -28,9 +30,13 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const saveItem = () => {
+  saveCartItems(cartItems.innerHTML);
+};
+
 function cartItemClickListener(event) {
-  const cartItems = document.querySelector('.cart__items');
   cartItems.removeChild(event.path[0]);
+  saveItem();
 }
 
 function createCartItemElement({ sku = id, name = title, salePrice = price }) {
@@ -50,8 +56,8 @@ const eventButton = async (event) => {
     salePrice: itemSearch.price,
   };
   const itemCompleted = createCartItemElement(itemTreatment);
-  const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(itemCompleted);
+  saveItem();
 };
 
 const selectProducts = async () => {
@@ -71,6 +77,15 @@ const selectProducts = async () => {
   });
 };
 
+const getStorage = () => {
+  cartItems.innerHTML = getSavedCartItems();
+  for (let i = 0; i < cartItems.children.length; i += 1) { // cartItems.children não é um array, daí não consegui usar .forEach.
+    cartItems.children[i].addEventListener('click', cartItemClickListener);
+  }
+};
+
 window.onload = () => { 
   selectProducts();
+
+  if (localStorage.length > 0) getStorage();
  };
