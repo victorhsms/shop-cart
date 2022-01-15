@@ -1,4 +1,17 @@
-  const cartItems = document.querySelector('.cart__items');
+const cartItems = document.querySelector('.cart__items');
+
+const sumPrices = () => {
+  let price = 0;
+  for (let i = 0; i < cartItems.children.length; i += 1) {
+    const searchPrice = cartItems.children[i].innerText;
+    const findPrice = searchPrice.search(/PRICE: \$/); // referência .search: https://ricardo-reis.medium.com/search-string-javascript-edd7557846d5 e referência ReGex: https://aiqon.com.br/blog/expressoes-regulares-para-iniciantes/
+    const priceProduct = searchPrice.substring(findPrice + 8, searchPrice.length); // referência: https://www.devmedia.com.br/javascript-substring-selecionando-parte-de-uma-string/39232
+    price += parseFloat(priceProduct);
+  }
+  const totalPrices = document.querySelector('.total-price').children[0];
+  totalPrices.innerHTML = parseFloat(price);
+  // .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); // referência: https://www.alura.com.br/artigos/formatando-numeros-no-javascript
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -26,10 +39,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
 const saveItem = () => {
   saveCartItems(cartItems.innerHTML);
 };
@@ -37,6 +46,7 @@ const saveItem = () => {
 function cartItemClickListener(event) {
   cartItems.removeChild(event.path[0]);
   saveItem();
+  sumPrices();
 }
 
 function createCartItemElement({ sku = id, name = title, salePrice = price }) {
@@ -58,6 +68,7 @@ const eventButton = async (event) => {
   const itemCompleted = createCartItemElement(itemTreatment);
   cartItems.appendChild(itemCompleted);
   saveItem();
+  sumPrices();
 };
 
 const onLoading = () => {
@@ -92,10 +103,12 @@ const getStorage = () => {
   for (let i = 0; i < cartItems.children.length; i += 1) { // cartItems.children não é um array, daí não consegui usar .forEach.
     cartItems.children[i].addEventListener('click', cartItemClickListener);
   }
+  sumPrices();
 };
 
 window.onload = () => { 
   selectProducts();
+  sumPrices();
 
   if (localStorage.length > 0) getStorage();
  };
